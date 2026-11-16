@@ -1,0 +1,631 @@
+/* Import Google Fonts Bernuansa Retro Klasik */
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Oswald:wght@500;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --retro-bg-dark: #18120D;
+    --retro-bg-brown: #241A12;
+    --retro-card: #2B1F16;
+    --retro-cream: #F5E6CC;
+    --retro-mustard: #E09F3E;
+    --retro-rust: #B84A27;
+    --retro-border: #D98A2B;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.retro-body {
+    background-color: var(--retro-bg-dark);
+    color: var(--retro-cream);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Warna Teks Bantu */
+.text-mustard {
+    color: var(--retro-mustard) !important;
+}
+
+.text-cream {
+    color: var(--retro-cream) !important;
+}
+
+/* ================= NAVBAR RETRO ================= */
+.retro-navbar {
+    background-color: #120D09;
+    border-bottom: 3px solid var(--retro-mustard);
+    padding: 14px 0;
+}
+
+.retro-nav-logo {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--retro-cream);
+    color: var(--retro-bg-dark) !important;
+    padding: 6px 14px;
+    border: 2px solid var(--retro-rust);
+    box-shadow: 4px 4px 0px var(--retro-mustard);
+    text-decoration: none;
+}
+
+.retro-nav-logo .logo-top {
+    font-family: 'Alfa Slab One', serif;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
+
+.retro-nav-logo .logo-bottom {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--retro-rust);
+}
+
+.retro-nav-link {
+    color: var(--retro-cream) !important;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.retro-nav-link:hover,
+.retro-nav-link.active {
+    color: var(--retro-mustard) !important;
+    border-bottom: 2px solid var(--retro-mustard);
+}
+
+.retro-toggler {
+    border-color: var(--retro-mustard);
+    background-color: var(--retro-cream);
+}
+
+/* ================= TOMBOL RETRO ================= */
+.retro-btn-primary {
+    background-color: var(--retro-mustard);
+    color: #18120D;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border: 2px solid var(--retro-cream);
+    border-radius: 0;
+    padding: 12px 24px;
+    box-shadow: 4px 4px 0px var(--retro-rust);
+    transition: all 0.2s ease;
+}
+
+.retro-btn-primary:hover {
+    background-color: var(--retro-cream);
+    color: #18120D;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--retro-mustard);
+}
+
+.retro-btn-outline {
+    background-color: transparent;
+    color: var(--retro-cream);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border: 2px solid var(--retro-cream);
+    border-radius: 0;
+    padding: 11px 22px;
+    transition: all 0.2s ease;
+}
+
+.retro-btn-outline:hover {
+    background-color: var(--retro-mustard);
+    color: #18120D;
+    border-color: var(--retro-mustard);
+}
+
+.retro-btn-logout {
+    background-color: var(--retro-rust);
+    color: var(--retro-cream);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    border: 1px solid var(--retro-cream);
+    border-radius: 0;
+}
+
+.retro-btn-logout:hover {
+    background-color: #96391C;
+    color: #fff;
+}
+
+/* ================= HERO & WATERMARK ================= */
+.retro-hero {
+    min-height: 88vh;
+    background: linear-gradient(rgba(24, 18, 13, 0.84), rgba(36, 26, 18, 0.92)),
+                url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    border-bottom: 4px solid var(--retro-mustard);
+    position: relative;
+    overflow: hidden;
+}
+
+.retro-watermark-bg {
+    position: absolute;
+    top: 10%;
+    right: -2%;
+    font-family: 'Alfa Slab One', serif;
+    font-size: 9rem;
+    color: rgba(224, 159, 62, 0.05);
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+}
+
+.retro-kicker {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--retro-mustard);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.retro-line {
+    display: inline-block;
+    width: 40px;
+    height: 3px;
+    background-color: var(--retro-mustard);
+}
+
+.retro-hero-headline {
+    font-family: 'Alfa Slab One', serif;
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+    line-height: 1.08;
+    letter-spacing: 2px;
+    color: var(--retro-cream);
+    text-shadow: 4px 4px 0px var(--retro-rust);
+}
+
+.retro-sticker-card {
+    background-color: var(--retro-cream);
+    color: var(--retro-bg-dark);
+    border: 4px solid var(--retro-mustard);
+    box-shadow: 10px 10px 0px var(--retro-rust);
+    transform: rotate(-2deg);
+}
+
+.retro-barber-pole {
+    height: 14px;
+    background: repeating-linear-gradient(
+        45deg,
+        #B84A27,
+        #B84A27 12px,
+        #F5E6CC 12px,
+        #F5E6CC 24px,
+        #1F3A52 24px,
+        #1F3A52 36px
+    );
+}
+
+.sticker-tag {
+    background-color: var(--retro-rust);
+    color: var(--retro-cream);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    letter-spacing: 1.5px;
+}
+
+.sticker-title {
+    font-family: 'Alfa Slab One', serif;
+    font-size: 2.3rem;
+    color: var(--retro-bg-dark);
+}
+
+.sticker-sub {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: var(--retro-rust);
+    letter-spacing: 2px;
+}
+
+.sticker-quote {
+    border-top: 2px dashed var(--retro-bg-dark);
+    padding-top: 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+/* ================= SECTIONS (/01, /02, /03, /04) ================= */
+.retro-section {
+    padding: 80px 0;
+    border-bottom: 2px solid rgba(224, 159, 62, 0.25);
+}
+
+.retro-section-dark {
+    background-color: var(--retro-bg-dark);
+}
+
+.retro-section-brown {
+    background-color: var(--retro-bg-brown);
+}
+
+.retro-section-num {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: var(--retro-mustard);
+    border-bottom: 2px solid var(--retro-mustard);
+    display: inline-block;
+    padding-bottom: 2px;
+    margin-bottom: 8px;
+}
+
+.retro-section-title {
+    font-family: 'Alfa Slab One', serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    letter-spacing: 2px;
+    color: var(--retro-cream);
+}
+
+.retro-highlight-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--retro-cream);
+}
+
+.retro-text {
+    color: #D8C7AE;
+    line-height: 1.7;
+}
+
+/* Frame Gambar Retro */
+.retro-frame-box {
+    background-color: var(--retro-cream);
+    padding: 10px;
+    border: 3px solid var(--retro-mustard);
+    box-shadow: 8px 8px 0px var(--retro-rust);
+}
+
+.retro-img {
+    filter: sepia(22%) contrast(105%);
+}
+
+.retro-frame-caption {
+    color: var(--retro-bg-dark);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 8px;
+    letter-spacing: 1.5px;
+}
+
+/* Services */
+.retro-service-item {
+    background-color: var(--retro-card);
+    border: 2px solid var(--retro-mustard);
+    padding: 20px;
+    box-shadow: 5px 5px 0px #120D09;
+}
+
+.retro-service-icon {
+    font-size: 2rem;
+    background-color: var(--retro-mustard);
+    color: var(--retro-bg-dark);
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid var(--retro-cream);
+}
+
+.retro-service-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--retro-cream);
+}
+
+.retro-price-badge {
+    background-color: var(--retro-rust);
+    color: var(--retro-cream);
+    font-family: 'Oswald', sans-serif;
+    border-radius: 0;
+}
+
+/* Pricing List */
+.retro-price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 2px solid rgba(245, 230, 204, 0.35);
+    font-weight: 600;
+}
+
+.retro-price-row .price-val {
+    color: var(--retro-mustard);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+/* Barbers Cards */
+.retro-barber-card {
+    background-color: var(--retro-card);
+    padding: 14px;
+    border: 2px solid var(--retro-mustard);
+    box-shadow: 6px 6px 0px var(--retro-rust);
+    height: 100%;
+}
+
+.retro-barber-photo {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+    filter: sepia(20%);
+}
+
+.retro-card-heading {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: var(--retro-mustard);
+    letter-spacing: 1px;
+}
+
+/* ================= PAGE HEADER (ABOUT, BOOKING, GALLERY, CONTACT) ================= */
+.retro-page-header {
+    background: linear-gradient(rgba(24, 18, 13, 0.86), rgba(24, 18, 13, 0.92)),
+                url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    padding: 70px 0 55px;
+    border-bottom: 4px solid var(--retro-mustard);
+}
+
+.retro-page-title {
+    font-family: 'Alfa Slab One', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--retro-cream);
+    text-shadow: 4px 4px 0px var(--retro-rust);
+}
+
+/* ================= LOGIN & FORM INPUTS ================= */
+.login-page-bg {
+    background: radial-gradient(circle, #2C2017 0%, #140E0A 100%);
+}
+
+.retro-login-box,
+.retro-card-box,
+.retro-registered-box {
+    background-color: var(--retro-card);
+    border: 3px solid var(--retro-mustard);
+    box-shadow: 8px 8px 0px var(--retro-rust);
+    padding: 30px;
+}
+
+.retro-badge-logo {
+    background-color: var(--retro-cream);
+    color: var(--retro-bg-dark);
+    border: 3px solid var(--retro-rust);
+    padding: 12px 18px;
+    display: inline-block;
+    box-shadow: 5px 5px 0px var(--retro-mustard);
+}
+
+.retro-brand-title {
+    font-family: 'Alfa Slab One', serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+.badge-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--retro-rust);
+}
+
+.retro-tab-btn {
+    background-color: #18120D;
+    color: var(--retro-cream);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    border: 2px solid var(--retro-mustard);
+    border-radius: 0;
+    padding: 10px;
+}
+
+.retro-tab-btn.active {
+    background-color: var(--retro-mustard);
+    color: #18120D;
+}
+
+.retro-label {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    color: var(--retro-mustard);
+    font-size: 0.9rem;
+}
+
+.retro-input {
+    background-color: var(--retro-cream) !important;
+    color: #18120D !important;
+    border: 2px solid var(--retro-mustard) !important;
+    border-radius: 0 !important;
+    font-weight: 500;
+}
+
+.retro-input:focus {
+    box-shadow: 0 0 0 3px rgba(224, 159, 62, 0.4) !important;
+}
+
+/* Booking & QRIS */
+.retro-dp-summary {
+    background-color: #18120D;
+    border: 2px dashed var(--retro-mustard);
+}
+
+.retro-qris-box {
+    background-color: var(--retro-cream);
+    border: 3px solid var(--retro-rust);
+}
+
+.retro-queue-ticket {
+    background-color: #18120D;
+    border-left: 5px solid var(--retro-mustard);
+    border-top: 1px solid var(--retro-mustard);
+    border-right: 1px solid var(--retro-mustard);
+    border-bottom: 1px solid var(--retro-mustard);
+}
+
+/* Alerts */
+.retro-alert-danger {
+    background-color: var(--retro-rust);
+    color: #fff;
+    border: 2px solid var(--retro-cream);
+    border-radius: 0;
+}
+
+.retro-alert-success {
+    background-color: #2B5B38;
+    color: #fff;
+    border: 2px solid var(--retro-cream);
+    border-radius: 0;
+}
+
+.retro-alert-call {
+    background-color: var(--retro-mustard);
+    color: #18120D;
+    border: 3px solid var(--retro-cream);
+    border-radius: 0;
+    box-shadow: 4px 4px 0px var(--retro-rust);
+}
+
+/* ================= GALLERY ================= */
+.retro-gallery-topbar {
+    background-color: var(--retro-card);
+    border: 2px solid var(--retro-mustard);
+}
+
+.retro-mini-avatar {
+    width: 46px;
+    height: 46px;
+    background-color: var(--retro-mustard);
+    color: #18120D;
+    font-family: 'Alfa Slab One', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--retro-cream);
+}
+
+.retro-gallery-card {
+    position: relative;
+    border: 2px solid var(--retro-mustard);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.retro-gallery-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    filter: sepia(20%);
+    transition: transform 0.3s ease;
+}
+
+.retro-gallery-card:hover .retro-gallery-img {
+    transform: scale(1.06);
+}
+
+.retro-gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(24, 18, 13, 0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+}
+
+.gallery-item-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    margin-bottom: 10px;
+}
+
+.retro-play-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(245, 230, 204, 0.9);
+    color: #18120D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.retro-modal-box {
+    background-color: var(--retro-card);
+    border: 3px solid var(--retro-mustard);
+    border-radius: 0;
+}
+
+/* ================= TABLE OWNER & FOOTER ================= */
+.retro-table th {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    color: var(--retro-mustard);
+    border-bottom: 2px solid var(--retro-mustard);
+}
+
+.retro-footer {
+    background-color: #100B08;
+    border-top: 4px solid var(--retro-mustard);
+}
+
+.retro-footer-title {
+    font-family: 'Alfa Slab One', serif;
+    font-size: 1.25rem;
+    color: var(--retro-cream);
+    letter-spacing: 1px;
+}
+
+.retro-footer-list li,
+.retro-footer-list p {
+    color: #D8C7AE;
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+}
+
+.retro-social-box {
+    width: 42px;
+    height: 42px;
+    background-color: var(--retro-cream);
+    color: #18120D;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 2px solid var(--retro-mustard);
+}
+
+.retro-social-box:hover {
+    background-color: var(--retro-mustard);
+    color: #18120D;
+}
+
+.retro-divider {
+    border-color: rgba(224, 159, 62, 0.35);
+}
+
+.retro-copyright {
+    font-size: 0.85rem;
+    color: #B9A78E;
+}
