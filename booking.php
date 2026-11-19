@@ -2,15 +2,47 @@
 session_start();
 require 'koneksi.php';
 
-$status_pesan = isset($_GET['status']) ? $_GET['status'] : '';
-$pesan_teks   = isset($_GET['pesan']) ? $_GET['pesan'] : '';
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') {
+    header("Location: index.php?error=Silakan login terlebih dahulu!");
+    exit();
+}
 
-// Ambil riwayat booking milik customer yang sedang login berdasarkan email/no_hp
 $email_user = $_SESSION['email'];
-$stmt_riwayat = $koneksi->prepare("SELECT * FROM bookings WHERE email_customer = ? ORDER BY id_booking DESC");
+
+// Ambil antrian aktif milik customer (yang statusnya BELUM 'Selesai')
+$stmt_riwayat = $koneksi->prepare("SELECT * FROM bookings WHERE email_customer = ? AND status_antrian != 'Selesai' ORDER BY id_booking DESC");
 $stmt_riwayat->bind_param("s", $email_user);
 $stmt_riwayat->execute();
 $riwayat_booking = $stmt_riwayat->get_result();
+
+// Endpoint AJAX ringan agar antrian yang sudah 'Selesai' langsung hilang secara real-time
+if (isset($_GET['ajax_antrian']) && $_GET['ajax_antrian'] == '1') {
+    if ($riwayat_booking->num_rows > 0) {
+        while ($row = $riwayat_booking->fetch_assoc()) {
+            if ($row['status_antrian'] === 'Antrian Berikutnya') {
+                echo '<div class="alert retro-alert-call mb-3 fw-bold" data-panggil="1">';
+                echo '🔔 PERHATIAN (Antrian #' . $row['id_booking'] . '):<br>';
+                echo '"Anda antrian berikutnya, pastikan sudah berada di tempat!"';
+                echo '</div>';
+            }
+            echo '<div class="retro-queue-ticket p-3 mb-3">';
+            echo '<div class="d-flex justify-content-between align-items-center mb-2">';
+            echo '<span class="badge retro-price-badge">NO. ANTRIAN #' . $row['id_booking'] . '</span>';
+            echo '<span class="badge bg-dark text-warning border border-warning">' . strtoupper(htmlspecialchars($row['status_antrian'])) . '</span>';
+            echo '</div>';
+            echo '<h5 class="mb-1 text-cream">' . htmlspecialchars($row['nama_service']) . '</h5>';
+            echo '<p class="small mb-1 retro-text">Atas Nama: <strong>' . htmlspecialchars($row['nama_customer']) . '</strong></p>';
+            echo '<p class="small mb-0 retro-text">Harga: Rp ' . number_format($row['harga_service'], 0, ',', '.') . ' | DP QRIS: <span class="text-mustard fw-bold">Rp ' . number_format($row['jumlah_dp'], 0, ',', '.') . '</span></p>';
+            echo '</div>';
+        }
+    } else {
+        echo '<p class="retro-text mb-0">Tidak ada antrian aktif saat ini. Silakan isi form di samping untuk memesan kursi barber Anda.</p>';
+    }
+    exit();
+}
+
+$status_pesan = isset($_GET['status']) ? $_GET['status'] : '';
+$pesan_teks   = isset($_GET['pesan']) ? $_GET['pesan'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -64,7 +96,6 @@ $riwayat_booking = $stmt_riwayat->get_result();
                                 <input type="tel" name="no_hp" class="form-control retro-input" value="<?= htmlspecialchars($_SESSION['no_hp']); ?>" required>
                             </div>
 
-                            <!-- Dropdown Services sesuai pada halaman Services & Pricing di Home -->
                             <div class="mb-3">
                                 <label class="form-label retro-label">PILIH SERVICES *</label>
                                 <select id="selectService" name="nama_service" class="form-select retro-input" required>
@@ -97,7 +128,6 @@ $riwayat_booking = $stmt_riwayat->get_result();
                                 <label class="form-label retro-label">METODE PEMBAYARAN: QRIS BARBERBOR *</label>
                                 <div class="retro-qris-box p-3 text-center mb-3">
                                     <span class="badge retro-price-badge mb-2">SCAN QRIS OFFICIAL BARBERBOR</span>
-                                    <!-- Visual QRIS SVG agar selalu tampil tajam tanpa broken link -->
                                     <div class="qris-svg-wrapper mx-auto my-2">
                                         <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="160" height="160" fill="#F5E6CC"/>
@@ -127,7 +157,7 @@ $riwayat_booking = $stmt_riwayat->get_result();
 
                                 <label class="form-label retro-label">NOMINAL TRANSFER DP QRIS (RP) *</label>
                                 <input type="number" id="inputJumlahDp" name="jumlah_dp" class="form-control retro-input" placeholder="Masukkan nominal DP (minimal 50% harga service)" min="0" required>
-                                <small id="pesanValidasiDp" class="text-warning d-block mt-1">
+                                <small class="text-warning d-block mt-1">
                                     * Jika tidak membayar DP atau nominal kurang dari 50%, booking tidak akan berhasil.
                                 </small>
                             </div>
@@ -139,43 +169,44 @@ $riwayat_booking = $stmt_riwayat->get_result();
                     </div>
                 </div>
 
-                <!-- Kolom Kanan: Status Antrian Customer Saat Ini -->
+                <!-- Kolom Kanan: Status Antrian Aktif Customer (Hilang Otomatis Jika Selesai) -->
                 <div class="col-lg-5">
                     <div class="retro-card-box p-4">
                         <div class="retro-section-num">/ 02</div>
                         <h3 class="retro-section-title fs-3 mb-3">ANTRIAN ANDA</h3>
 
-                        <?php if ($riwayat_booking->num_rows > 0): ?>
-                            <?php while ($row = $riwayat_booking->fetch_assoc()): ?>
-                                <?php if ($row['status_antrian'] === 'Antrian Berikutnya'): ?>
-                                    <!-- Alert Panggilan Antrian dari Owner -->
-                                    <div class="alert retro-alert-call mb-3 fw-bold">
-                                        🔔 PERHATIAN (Antrian #<?= $row['id_booking']; ?>):<br>
-                                        "Anda antrian berikutnya, pastikan sudah berada di tempat!"
-                                    </div>
-                                    <script>
-                                        alert("Anda antrian berikutnya, pastikan sudah berada di tempat!");
-                                    </script>
-                                <?php endif; ?>
+                        <div id="containerAntrianCustomer">
+                            <?php if ($riwayat_booking->num_rows > 0): ?>
+                                <?php while ($row = $riwayat_booking->fetch_assoc()): ?>
+                                    <?php if ($row['status_antrian'] === 'Antrian Berikutnya'): ?>
+                                        <div class="alert retro-alert-call mb-3 fw-bold" data-panggil="1">
+                                            🔔 PERHATIAN (Antrian #<?= $row['id_booking']; ?>):<br>
+                                            "Anda antrian berikutnya, pastikan sudah berada di tempat!"
+                                        </div>
+                                        <script>
+                                            alert("Anda antrian berikutnya, pastikan sudah berada di tempat!");
+                                        </script>
+                                    <?php endif; ?>
 
-                                <div class="retro-queue-ticket p-3 mb-3">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge retro-price-badge">NO. ANTRIAN #<?= $row['id_booking']; ?></span>
-                                        <span class="badge bg-dark text-warning border border-warning">
-                                            <?= strtoupper($row['status_antrian']); ?>
-                                        </span>
+                                    <div class="retro-queue-ticket p-3 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="badge retro-price-badge">NO. ANTRIAN #<?= $row['id_booking']; ?></span>
+                                            <span class="badge bg-dark text-warning border border-warning">
+                                                <?= strtoupper($row['status_antrian']); ?>
+                                            </span>
+                                        </div>
+                                        <h5 class="mb-1 text-cream"><?= htmlspecialchars($row['nama_service']); ?></h5>
+                                        <p class="small mb-1 retro-text">Atas Nama: <strong><?= htmlspecialchars($row['nama_customer']); ?></strong></p>
+                                        <p class="small mb-0 retro-text">
+                                            Harga: Rp <?= number_format($row['harga_service'], 0, ',', '.'); ?> | 
+                                            DP QRIS: <span class="text-mustard fw-bold">Rp <?= number_format($row['jumlah_dp'], 0, ',', '.'); ?></span>
+                                        </p>
                                     </div>
-                                    <h5 class="mb-1 text-cream"><?= htmlspecialchars($row['nama_service']); ?></h5>
-                                    <p class="small mb-1 retro-text">Atas Nama: <strong><?= htmlspecialchars($row['nama_customer']); ?></strong></p>
-                                    <p class="small mb-0 retro-text">
-                                        Harga: Rp <?= number_format($row['harga_service'], 0, ',', '.'); ?> | 
-                                        DP QRIS: <span class="text-mustard fw-bold">Rp <?= number_format($row['jumlah_dp'], 0, ',', '.'); ?></span>
-                                    </p>
-                                </div>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <p class="retro-text">Belum ada jadwal booking aktif. Silakan isi form di samping untuk memesan kursi barber Anda.</p>
-                        <?php endif; ?>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <p class="retro-text mb-0">Tidak ada antrian aktif saat ini. Silakan isi form di samping untuk memesan kursi barber Anda.</p>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
